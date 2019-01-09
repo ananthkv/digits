@@ -1,28 +1,27 @@
 <!DOCTYPE html>
 <html>
-<style>
-#demo {
-    margin: 0px;
-    padding: 0px;
-    border: 1px solid black;
-    display: inline-block;
-    text-align: center;
-    font-size: 200px;
-    vertical-align: middle;
-    user-select: none;
-    height: 98vh;
-    width: 100%;
-}
-</style>
-<body onkeypress=javascript:myFunction(); onclick="myFunction()" onload="myFunction()">
-
-<p id="demo"></p>
-
-<script>
-function myFunction() {
-  document.getElementById("demo").innerHTML = Math.round(Math.random() * 10, 0) % 10;
-}
-</script>
-
-</body>
+    <head>
+        <style>
+        #demo {
+            margin: 0px;
+            padding: 0px;
+            border: 1px solid black;
+            display: inline-block;
+            text-align: center;
+            font-size: 200px;
+            vertical-align: middle;
+            user-select: none;
+            height: 98vh;
+            width: 100%;
+        }
+        </style>
+        <script>
+        function myFunction() {
+          document.getElementById("demo").innerHTML = Math.round(Math.random() * 10, 0) % 10;
+        }
+        </script>
+    </head>
+    <body onkeypress=javascript:myFunction(); onclick="myFunction()" onload="myFunction()">
+        <div id="demo"></div>
+    </body>
 </html>
