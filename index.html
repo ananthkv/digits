@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<style>
+#demo {
+	text-align: center;
+    font-size: 200px;
+    valign: middle;
+    user-select: none;
+}
+</style>
+<body onkeypress=javascript:myFunction(); onclick="myFunction()" onload="myFunction()">
+
+<p id="demo"></p>
+
+<script>
+function myFunction() {
+  document.getElementById("demo").innerHTML = Math.round(Math.random() * 10, 0) % 10;
+}
+</script>
+
+</body>
+</html>
