@@ -18,11 +18,16 @@
         </style>
         <script>
         function myFunction() {
+          var colors = 		['red',		'green',	'blue',		'yellow',	'orange',	'purple',	'brown',	'pink',		'black',	'white',	'grey'];
+          var bgcolors = 	['#ababab',	'#ababab',	'#ababab',	'#545454',	'#343434',	'#ababab',	'#ababab',	'#121212',	'#545454',	'#121212',	'#121212'];
+          var randomIndex = Math.round(Math.random() * 100, 0) % colors.length;
           document.getElementById("demo").innerHTML = Math.round(Math.random() * 10, 0) % 10;
+          document.getElementById("demo").style.color = colors[randomIndex];
+          document.getElementById("demo").style.backgroundColor = bgcolors[randomIndex];
         }
         </script>
     </head>
-    <body onkeypress=javascript:myFunction(); onclick="myFunction()" onload="myFunction()">
+    <body onkeypress="javascript:myFunction();" onclick="javascript:myFunction();" onload="javascript:myFunction();">
         <div id="demo"></div>
     </body>
 </html>
