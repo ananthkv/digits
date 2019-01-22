@@ -15,6 +15,7 @@
             height: 90vh;
             width: 100%;
         }
+        html, body {margin: 0; height: 100%; overflow: hidden}
         </style>
         <script>
         function myFunction() {
@@ -24,6 +25,7 @@
           document.getElementById("demo").innerHTML = Math.round(Math.random() * 10, 0) % 10;
           document.getElementById("demo").style.color = colors[randomIndex];
           document.body.style.backgroundColor = bgcolors[randomIndex];
+          return false;
         }
         </script>
     </head>
