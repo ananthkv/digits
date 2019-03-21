@@ -18,18 +18,94 @@
         html, body {margin: 0; height: 100%; overflow: hidden}
         </style>
         <script>
-        function myFunction() {
-          var colors = 		['red',		'green',	'blue',		'yellow',	'orange',	'purple',	'brown',	'pink',		'black',	'white',	'grey'];
-          var bgcolors = 	['#ababab',	'#ababab',	'#ababab',	'#545454',	'#343434',	'#ababab',	'#ababab',	'#121212',	'#545454',	'#121212',	'#121212'];
-          var randomIndex = Math.round(Math.random() * 100, 0) % colors.length;
-          document.getElementById("demo").innerHTML = Math.round(Math.random() * 10, 0) % 10;
-          document.getElementById("demo").style.color = colors[randomIndex];
-          document.body.style.backgroundColor = bgcolors[randomIndex];
-          return false;
+		function storeLocally(value){
+			if(localStorage) {
+				localStorage.setItem('anacron_digits_digit', value);
+			} else {
+				alert('localStorage not available.');
+			}
+			if(chrome) {
+				if(chrome.storage) {
+					if(chrome.storage.local){
+						var data = {};
+						var key = "anacron_digits_digit";
+						data[key] += value;
+						chrome.storage.local.set(data);
+					}
+				}
+			}
+		}
+		function restoreLocally(){
+			if(localStorage){
+				if(localStorage.getItem('anacron_digits_digit')) {
+					return localStorage.getItem('anacron_digits_digit');
+				}
+			} else {
+				alert('localStorage not available.');
+			}
+			if(chrome && chrome.storage && chrome.storage.local){
+				var data = 0;
+				chrome.storage.local.get('anacron_digits_digit', function (result) {
+					data = result.anacron_digits_digit;
+				});
+				return data;
+			}
+			return 0;
+		}
+		function myFunction() {
+			var colors = 		['red',		'green',	'blue',		'yellow',	'orange',	'purple',	'brown',	'pink',		'black',	'white',	'grey'];
+			var bgcolors = 	['#ababab',	'#ababab',	'#ababab',	'#545454',	'#343434',	'#ababab',	'#ababab',	'#121212',	'#545454',	'#121212',	'#121212'];
+			var randomIndex = Math.round(Math.random() * 100, 0) % colors.length;
+
+			var number = (restoreLocally() % 10);
+			storeLocally(number + 1);
+			var color = colors[randomIndex];
+			var bgcolor = bgcolors[randomIndex];
+
+			document.getElementById("demo").innerHTML = number;
+			document.getElementById("demo").style.color = color;
+			document.body.style.backgroundColor = bgcolor;
+
+			say(color + " " + number);
+			return false;
         }
+        var sayTimeout = null;
+        var voices = speechSynthesis.getVoices();
+		function say(text) {
+		    if (speechSynthesis.speaking || speechSynthesis.pending) {
+		        // SpeechSyn is currently speaking, cancel the current utterance(s)
+		        speechSynthesis.cancel();
+
+		        // Make sure we don't create more than one timeout...
+		        if (sayTimeout !== null)
+		            clearTimeout(sayTimeout);
+
+		        sayTimeout = setTimeout(function () { say(text); }, 250);
+		    }
+		    else {
+		        // Good to go
+		        var message = new SpeechSynthesisUtterance(text);
+		        message.lang = "en-US";
+		        if(voices.length > 0) {
+		        	message.voice = voices[3];
+		        } else {
+        			voices = speechSynthesis.getVoices();
+				}
+		        speechSynthesis.speak(message);
+		    }
+		}
+		function init() {
+			voices = speechSynthesis.getVoices();
+			myFunction();
+		}
         </script>
     </head>
-    <body onkeypress="javascript:myFunction();" onclick="javascript:myFunction();" onload="javascript:myFunction();" ontouchmove="javascript:myFunction();" ontouchend="javascript:myFunction();">
-        <div id="demo"></div>
+    <body
+    	onload="javascript:init();"
+    	onkeypress="javascript:myFunction();"
+    	onclick="javascript:myFunction();"
+    	ontouchmove="javascript:myFunction();"
+    	ontouchend="javascript:myFunction();">
+	        <div id="demo"></div>
     </body>
 </html>
